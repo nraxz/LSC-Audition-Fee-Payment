@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Cancel Payment</title>
+    <title>Error Page</title>
    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://bootswatch.com//5/journal/bootstrap.css">
@@ -13,10 +13,10 @@
 <body>
    <div class="container">
       <div class="card border-success mb-3">
-         <div class="card-header">Payment Failed</div>
+         <div class="card-header">Error occurs</div>
          <div class="card-body">
                <h4 class="card-title">Sorry for the inconvinient.</h4>
-               <p class="card-text"> Something went wrong and payment is failed.</p>
+               <p class="card-text"> Something went wrong and please contact admissions manager at studor@londonstudiocentre.ac.uk</p>
          </div>
       </div>
    </div>

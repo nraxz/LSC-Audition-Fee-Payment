@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="https://bootswatch.com//_assets/css/custom.min.css">
 <body>
 <div class="container">
+        <div class="row bg-primary  mb-3">
+            <div class="col ">
+                <img src="https://www.londonstudiocentre.org/wp-content/themes/lsc/assets/dist/img/londonstudiocentre-logo.svg" alt="London Studio Centre Logo" style="width: 350px; height: auto;">
+            </div>
+        </div>
       
         <h2 class="navbar-brand">London Studio Centre Audition Fee Payment</h2>     
    

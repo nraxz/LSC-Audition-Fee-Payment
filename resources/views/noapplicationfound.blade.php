@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Cancel Payment</title>
+    <title>No Application found</title>
    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://bootswatch.com//5/journal/bootstrap.css">
@@ -17,12 +17,11 @@
                 <img src="https://www.londonstudiocentre.org/wp-content/themes/lsc/assets/dist/img/londonstudiocentre-logo.svg" alt="London Studio Centre Logo" style="width: 350px; height: auto;">
             </div>
         </div>
-
       <div class="card border-success mb-3">
-         <div class="card-header">Payment Cancel</div>
+         <div class="card-header">No Application found</div>
          <div class="card-body">
-               <h4 class="card-title"></h4>
-               <p class="card-text"> You have cancel the payment. Please log back in your application and cmplete the payment to conform your booking.</p>
+               <h4 class="card-title">Sorry for the inconvinient.</h4>
+               <p class="card-text"> Something went wrong and please contact admissions manager at studor@londonstudiocentre.ac.uk</p>
          </div>
       </div>
    </div>

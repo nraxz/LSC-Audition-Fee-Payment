@@ -39,40 +39,55 @@ class PaymentController extends Controller
     
     public function index()
     {
-        $application = Application::find('5');       
-        $audition = Audition::find($application->audition_id);
-        $venue = venue::find($application->venue_id);
-        $applicant = Applicant::where('login', $application->login)->first();          
+        $pk = $_GET['pk'];
+        $pks = explode('-', $pk);
 
-        $application_id = $application->id;     
-        $applicant_name = $applicant->firstname.' '.$applicant->lastname;
+        if (count($pks) != 2) {
+            return view('wrongparameters');
+        }
+
+        [$aid, $sid] = $pks;
+        $application = Application::find($aid);
+
+        if (!$application) {
+            return view('noapplicationfound');
+        }
+        if ($application->login != $sid) {
+            return view('noapplicationfound');
+        }
+
+        $audition = Audition::find($application->audition_id);
+        $venue = Venue::find($application->venue_id);
+        $applicant = Applicant::where('login', $application->login)->first();
+
+        if (!$audition || !$venue || !$applicant) {
+            return view('noapplicationfound');
+        }
+
+        $application_id = $application->id;
+        $applicant_name = $applicant->firstname . ' ' . $applicant->lastname;
         $applicant_email = $applicant->email;
         $application_fees = $audition->audition_fee;
         $audition_date = $audition->audition_date;
         $audition_title = $audition->audition_title;
         $application_login = $application->login;
-        $audition_type = $audition->type; 
-        $payment_status = $application->payment_status;   
+        $audition_type = $audition->type;
+        $payment_status = $application->payment_status;
 
-
-        $email_name = 'booking_confirmed';
-
-                $email_body = EmailBodyMessage::where('email_name', $email_name)->first();
-
-
-                $objDemo = new \stdClass();
-                $objDemo->name = $applicant_name;
-                $objDemo->subject = 'Booking Confirmation';
-                //$objDemo->email = $applicant_email;
-                $objDemo->email = 'thenraxz@gmail.com';
-                $objDemo->content = $email_body->email_body;
-            
- 
-            //Mail::to($applicant->user->email)->cc($company_email)->send(new AuditionFeesPaid($objDemo));
-            Mail::to($applicant_email)->send(new BookingConfirm($objDemo));
-
-        return view('paywithpaypal', compact('application_id', 'applicant_name', 'audition_date', 'application_fees', 'applicant_email', 'application_login', 'audition_type', 'payment_status', 'audition_title' ));
+        
+        return view('paywithpaypal', compact(
+            'application_id',
+            'applicant_name',
+            'audition_date',
+            'application_fees',
+            'applicant_email',
+            'application_login',
+            'audition_type',
+            'payment_status',
+            'audition_title'
+        ));
     }
+
 
     public function payWithpaypal(Request $request)
     {
@@ -212,7 +227,7 @@ class PaymentController extends Controller
     
         if (empty($payerId) || empty($token)) {
             session()->put('error', 'Payment failed');
-            return redirect()->route('failed');
+            return redirect()->route('cancel');
         }
         
 
@@ -226,8 +241,8 @@ class PaymentController extends Controller
              if ($result->getState() === 'approved') 
              {
                 \Session::put('success', 'Payment success');
-               // $this->recordUpdate($application_id);
-               // $this->createPaymentLog($details);
+                $this->recordUpdate($application_id);
+                $this->createPaymentLog($details);
 
                 $email_name = 'booking_confirmed';
 
@@ -237,13 +252,13 @@ class PaymentController extends Controller
                 $objDemo = new \stdClass();
                 $objDemo->name = $applicant_name;
                 $objDemo->subject = 'Booking Confirmation';
-                //$objDemo->email = $applicant_email;
-                $objDemo->email = 'thenraxz@gmail.com';
+                $objDemo->email = $applicant_email;
+                //$objDemo->email = 'thenraxz@gmail.com';
                 $objDemo->content = $email_body->email_body;
             
  
             //Mail::to($applicant->user->email)->cc($company_email)->send(new AuditionFeesPaid($objDemo));
-            Mail::to($applicant_email)->send(new BookingConfirm($objDemo));
+               Mail::to($applicant_email)->send(new BookingConfirm($objDemo));
             
         
             return Redirect('/success');
