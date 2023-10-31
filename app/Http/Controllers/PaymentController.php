@@ -39,6 +39,9 @@ class PaymentController extends Controller
     
     public function index()
     {
+        if (!isset($pk)) {
+            return view('noapplicationfound');
+        }
         $pk = $_GET['pk'];
         $pks = explode('-', $pk);
 
