@@ -39,8 +39,8 @@ class PaymentController extends Controller
     
     public function index()
     {
-        if (!isset($pk)) {
-            return view('noapplicationfound');
+        if (!isset($_GET['pk'])) {
+            return view('wrongparameters');
         }
         $pk = $_GET['pk'];
         $pks = explode('-', $pk);
@@ -255,8 +255,8 @@ class PaymentController extends Controller
                 $objDemo = new \stdClass();
                 $objDemo->name = $applicant_name;
                 $objDemo->subject = 'Booking Confirmation';
-                $objDemo->email = $applicant_email;
-                //$objDemo->email = 'thenraxz@gmail.com';
+                //$objDemo->email = $applicant_email;
+                $objDemo->email = 'thenraxz@gmail.com';
                 $objDemo->content = $email_body->email_body;
             
  
@@ -292,7 +292,8 @@ class PaymentController extends Controller
 
     private function recordUpdate($applicationId)
     {
-        DB::table('application_detail')->update(['payment_status' => 'Complete'], ['id' => $applicationId]);
+        DB::table('application_detail')->where('id', $applicationId)->update(['payment_status' => 'Complete']);
+
     }
 
     private function createPaymentLog($details)
